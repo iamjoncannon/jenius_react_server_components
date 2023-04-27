@@ -6,7 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"start": "node --no-warnings server/dev.js",
-		"dev": "node --no-warnings server/dev.js",
+		"dev": "rm -rf ./dist/* && node --no-warnings server/dev.js",
 		"lint": "eslint '**/*.{js,jsx,ts,tsx}'",
 		"lint:fix": "eslint --fix '**/*.{js,jsx,ts,tsx}'",
 		"format": "prettier --check . --ignore-path .gitignore !package.json !pnpm-lock.yaml",
@@ -20,10 +20,15 @@
 		"@hattip/adapter-node": "^0.0.33",
 		"@hattip/core": "^0.0.33",
 		"@hattip/router": "^0.0.33",
+		"@prisma/client": "4.13.0",
+		"detect-url-change": "^1.0.2",
 		"esbuild": "^0.17.14",
 		"react": "18.3.0-next-3706edb81-20230308",
 		"react-dom": "18.3.0-next-3706edb81-20230308",
-		"react-server-dom-webpack": "0.0.0-experimental-41b4714f1-20230328"
+		"react-router-dom": "^6.10.0",
+		"react-server-dom-webpack": "0.0.0-experimental-41b4714f1-20230328",
+		"sanitize-html": "^2.10.0",
+		"styled-components": "^5.3.10"
 	},
 	"devDependencies": {
 		"@types/node": "^18.15.11",
@@ -37,6 +42,7 @@
 		"eslint-plugin-unicorn": "^46.0.0",
 		"nanoid": "^4.0.2",
 		"prettier": "^2.8.7",
+		"prisma": "4.13.0",
 		"ws": "^8.13.0"
 	}
 }

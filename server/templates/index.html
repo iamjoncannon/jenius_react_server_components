@@ -1,18 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="ScreenOrientation" content="autoRotate:disabled" />
+		<title>Jenius</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+		/>
+		<style>
+			body {
+				margin: 0;
+			}
 
-<head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Future of React</title>
-	<script src="https://cdn.tailwindcss.com"></script>
-</head>
+			:root {
+				--animate-duration: 500ms;
+				background-color: #202124;
+			}
 
-<body>
-	<!--TODO: server-side rendering-->
-	<div id="root">Fetching from server...</div>
-	<script type="module" src="/dist/client/_router.js"></script>
-</body>
+			a {
+				text-decoration: underline !important;
+			}
 
+			a:hover {
+				color: #64ffaf !important;
+			}
+
+			::-webkit-scrollbar {
+				width: 8px;
+			}
+
+			::-webkit-scrollbar-track {
+				background: #fffc64;
+			}
+
+			::-webkit-scrollbar-thumb {
+				background: #202124;
+				border-radius: 16px;
+			}
+
+			::-webkit-scrollbar-thumb:hover {
+				background: #64ffaf;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="root"></div>
+		<script type="module" src="/dist/client/_router.js"></script>
+	</body>
 </html>

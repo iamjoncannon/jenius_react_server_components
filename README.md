@@ -1,51 +1,21 @@
-# Simple RSC ⚛️
+# jenius rsc
 
-> A simple React Server Components implementation that you can build yourself 🙌
+First note this repo is a development of https://github.com/bholmesdev/simple-rsc by Ben Holmes, who worked out the core server component interface using esbuild and react-server-dom-webpack. This interface will anticipate, I think, a future release of [officially supported rsc bundlers](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023#react-server-components) outside next.js.
 
-[Watch the live demo with Dan Abramov here!](https://www.youtube.com/watch?v=Fctw7WjmxpU)
+<img src="./docs/hova2.png" />
 
-## ⭐️ Goals
+This is an extended exploration of server components outside next.js.
 
-- ⚙️ Demo a build process to bundle server components and handle client components with the `"use client"` directive.
-- 🌊 Show how React server components are streamed to the browser with a simple Node server.
-- 📝 Reveal how a server component requests appear to the client with a robust developer panel.
+I also implement a 'hydrator' pattern to decouple the processing of a server component from the view layer logic-- see /app/serverComponents/hydrators.js, /app/serverComponentShell.jsx and RscService::stream.
 
-## Getting started
+A benefit of this pattern vs data container HOCs or hooks encapsulation is that it allows us to transmit and manage remote state that might be relevent to the ancestor of the server component. The example use case in this demo is paginating server-rendered lists, where the page data from search is returned along with the list stream so the ancestor/host app can be aware of this remote state branch.
 
-First, install dependencies with "peer dependency" errors disabled:
+### Server component benefits
 
-```bash
-npm i --legacy-peer-deps
-```
+1. `Ultra fast, concurrent pageloads`, strong user experience- initial js bundle is slimmed down, with flexiblity to granularly select js (client components) that are required to support features. This is a benefit highlighted by the core React team. see /app/serverComponents/ArtistFeatureCard.jsx
 
-_This is due to experimental version conflicts. React Server Components are still quite new!_
+2. We get a `no cost contract` between the client app and server that is just React props-- no need to write DSL objects (GraphQL, gRPC) or define separate types in different layers of the stack. The dx makes the server/client feel like one unified application.
 
-Then, start the Node development server:
+3. `Data rich application without any fetching interface`-- reduce dependence on react-query, rtk-query, apollo-query, or a file filled with api error handlers. The client side rsc shell encapsulates and handles ajax transactions.
 
-```bash
-npm run dev
-```
-
-This should trigger a build and start your server at http://localhost:3000 👀
-
-Hint: Try editing the `app/page.jsx` file to see changes appear in your browser.
-
-## Project structure
-
-This project is broken up into the `app/` and `server/` directories. The most important entrypoints are listed below:
-
-```sh
-app/ # 🥞 your full-stack application
-  page.jsx # server index route.
-  _router.jsx # client script that requests your `page.jsx`.
-
-server/ # 💿 your backend that builds and renders the `app/`
-  index.js # server router for streaming React server components
-  build.js # bundler to process server and client components
-```
-
-## 🙋‍♀️ What is _not_ included?
-
-- **File-based routing conventions.** This repo includes a _single_ index route, with support for processing query params. If you need multiple routes, you can try [NextJS' new `app/` directory.](https://beta.nextjs.org/docs/routing/defining-routes)
-- **Advance bundling for CSS-in-JS.** [A Tailwind script](https://tailwindcss.com/docs/installation/play-cdn) is included for playing with styles.
-- **Advice on production deploys.** This is a _learning tool_ to show how React Server Components are used, _not_ the bedrock for your next side project! See [React's updated "Start a New React Project" guide](https://react.dev/learn/start-a-new-react-project) for advice on building production-ready apps.
+4. Strong `separation of concerns`- controller (client app, client components), view (server component), and data (hydrator) layers are isolated, very easy to reason about and test. The host/client app is now mostly responsible for reacting to user input and managing shared state.

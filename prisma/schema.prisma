@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource my_mysql_db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Artist {
+  id             String @id @default(uuid())
+  sourceId       Int
+  name           String
+  imageUrl       String @my_mysql_db.Text
+  headerImageUrl String @my_mysql_db.Text
+  url            String @my_mysql_db.Text
+  description    String @my_mysql_db.Text
+  source         String
+
+  @@unique([sourceId, name, source])
+}
+
+model Song {
+  id                           String  @id @default(uuid())
+  sourceId                     Int
+  source                       String
+  artist_names                 String? @my_mysql_db.Text
+  description                  String? @my_mysql_db.Text
+  full_title                   String? @my_mysql_db.Text
+  title                        String?
+  url                          String? @my_mysql_db.Text
+  albumName                    String? @my_mysql_db.Text
+  featured_artists             String? @my_mysql_db.Text
+  primary_artists              String? @my_mysql_db.Text
+  writer_artists               String? @my_mysql_db.Text
+  header_image_thumbnail_url   String? @my_mysql_db.Text
+  header_image_url             String? @my_mysql_db.Text
+  release_date                 String?
+  song_art_image_thumbnail_url String? @my_mysql_db.Text
+  song_art_image_url           String? @my_mysql_db.Text
+  searchIndex                  String? @my_mysql_db.Text
+
+  @@unique([sourceId, title, source])
+}

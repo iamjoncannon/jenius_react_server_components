@@ -1,2 +1,8 @@
 node_modules/
 dist/
+db/token.js
+db/*.json
+.env
+prisma/dev.db
+prisma/migrations
+deploy/

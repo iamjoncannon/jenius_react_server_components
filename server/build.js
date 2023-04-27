@@ -7,6 +7,27 @@ const USE_CLIENT_ANNOTATIONS = ['"use client"', "'use client'"];
 const JSX_EXTS = ['.jsx', '.tsx'];
 const relativeOrAbsolutePathRegex = /^\.{0,2}\//;
 
+const minify = true;
+
+const serverComponentPath = process.cwd() + '/app';
+
+function walk(dir) {
+	let results = [];
+	const list = fs.readdirSync(dir);
+	list.forEach(function (file) {
+		file = dir + '/' + file;
+		const stat = fs.statSync(file);
+		if (stat && stat.isDirectory()) {
+			results = results.concat(walk(file));
+		} else {
+			results.push(file);
+		}
+	});
+	return results;
+}
+
+const serverComponents = walk(serverComponentPath);
+
 /**
  * Build all server and client components with esbuild
  */
@@ -34,12 +55,15 @@ export async function build() {
 	const sharedConfig = {
 		bundle: true,
 		format: 'esm',
-		logLevel: 'error'
+		logLevel: 'error',
+		minify
 	};
+
+	const entryPoints = serverComponents.map((each) => fileURLToPath(resolveSrc(each)));
 
 	await esbuild({
 		...sharedConfig,
-		entryPoints: [fileURLToPath(resolveSrc('page.jsx'))],
+		entryPoints,
 		outdir: fileURLToPath(serverDist),
 		packages: 'external',
 		plugins: [
