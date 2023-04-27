@@ -10,7 +10,8 @@
 		"lint": "eslint '**/*.{js,jsx,ts,tsx}'",
 		"lint:fix": "eslint --fix '**/*.{js,jsx,ts,tsx}'",
 		"format": "prettier --check . --ignore-path .gitignore !package.json !pnpm-lock.yaml",
-		"format:fix": "prettier --write . --ignore-path .gitignore !package.json !pnpm-lock.yaml"
+		"format:fix": "prettier --write . --ignore-path .gitignore !package.json !pnpm-lock.yaml",
+		"test-deploy": "docker build -t 283564121446.dkr.ecr.us-east-1.amazonaws.com/jenius . && docker run -it -p 3000:80 -t 283564121446.dkr.ecr.us-east-1.amazonaws.com/jenius"
 	},
 	"browserslist": "defaults",
 	"keywords": [],

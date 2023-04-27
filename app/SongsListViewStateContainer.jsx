@@ -26,6 +26,11 @@ function SongsListLoading({ pagination }) {
 
 const SongsListViewStateContainer = ({ search }) => {
 	const [page, nextPage] = React.useState(0);
+
+	React.useEffect(() => {
+		nextPage(0);
+	}, [search]);
+
 	const [remoteState, setRemoteState] = React.useState(null);
 
 	const hasResults = React.useMemo(() => {
@@ -43,7 +48,7 @@ const SongsListViewStateContainer = ({ search }) => {
 				childProps={{ search, page, showCode: true }}
 			/>
 
-			{hasResults ? <PaginationWrapper {...{ page, remoteState, nextPage }} /> : ''}
+			{hasResults ? <PaginationWrapper {...{ search, page, remoteState, nextPage }} /> : ''}
 		</div>
 	);
 };

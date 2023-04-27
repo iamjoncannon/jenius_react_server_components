@@ -85,7 +85,7 @@ const MainLayout = () => {
 				{search?.length <= MIN_SEARCH_LENGTH && (
 					<ServerComponentShell
 						serverComponent={hydratorConstants.ArtistFeatureCard}
-						// fallback={<ArtistFeatureCardLoading />}
+						fallback={<ArtistFeatureCardLoading />}
 						hydrator={hydratorConstants.ArtistFeatureCardForSplashPage}
 					/>
 				)}

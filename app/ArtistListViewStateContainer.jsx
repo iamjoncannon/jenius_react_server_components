@@ -26,6 +26,11 @@ function Loading({ source, pagination }) {
 
 const ArtistListViewStateContainer = ({ search, source }) => {
 	const [page, nextPage] = React.useState(0);
+
+	React.useEffect(() => {
+		nextPage(0);
+	}, [search]);
+
 	const [remoteState, setRemoteState] = React.useState(null);
 
 	const hasResults = React.useMemo(() => {
@@ -33,7 +38,7 @@ const ArtistListViewStateContainer = ({ search, source }) => {
 	}, [remoteState]);
 
 	return (
-		<div className={`genius-list-container  animate__animated animate__fadeIn `}>
+		<div className={`genius-list-container animate__animated animate__fadeIn`}>
 			<ServerComponentShell
 				onHydrate={setRemoteState}
 				hydrator={hydratorConstants.ArtistListView}
@@ -45,7 +50,7 @@ const ArtistListViewStateContainer = ({ search, source }) => {
 				}
 			/>
 
-			{hasResults ? <PaginationWrapper {...{ page, remoteState, nextPage }} /> : <></>}
+			{hasResults ? <PaginationWrapper {...{ search, page, remoteState, nextPage }} /> : <></>}
 		</div>
 	);
 };

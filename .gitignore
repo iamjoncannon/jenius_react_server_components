@@ -6,3 +6,4 @@ db/*.json
 prisma/dev.db
 prisma/migrations
 deploy/
+deploy.sh

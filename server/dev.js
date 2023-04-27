@@ -7,13 +7,11 @@ import { handler } from './index.js';
 import { build } from './build.js';
 import { src } from './utils.js';
 
-const port = 3000;
+const port = process.env.NODE_ENV === 'production' ? 80 : 3000;
 
-process.env.NODE_ENV = 'development';
-
-createServer(handler).listen(port, 'localhost', async () => {
+createServer(handler).listen(port, '0.0.0.0', async () => {
 	await build();
-	console.log(`⚛️ Future of React started on http://localhost:${port}`);
+	console.log(`server started on :${port}`);
 });
 
 // File watcher to trigger browser refreshes
