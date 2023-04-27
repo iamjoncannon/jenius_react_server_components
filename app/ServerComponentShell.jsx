@@ -1,7 +1,6 @@
 'use client';
 // @ts-expect-error Module '"react"' has no exported member 'use'.
-import { StrictMode, useEffect, useState, use, startTransition } from 'react';
-import { createRoot } from 'react-dom/client';
+import { useEffect, useState, use } from 'react';
 import { /* FOR FRAMEWORK DEVS */ createFromFetch } from 'react-server-dom-webpack/client';
 import { ReactIcon } from './components';
 
@@ -60,22 +59,27 @@ const ServerComponentShell = ({
 		if (!jsxCache.has(propsForServer)) {
 			const apiCall = fetch(url, init);
 
-			apiCall.then((data) => {
-				let stateFromHydration = {};
-				try {
-					stateFromHydration = JSON.parse(
-						decodeURIComponent(data.headers.get('stateFromHydration') || '')
-					);
-				} catch (err) {}
+			apiCall
+				.then((data) => {
+					let stateFromHydration = {};
+					try {
+						stateFromHydration = JSON.parse(
+							decodeURIComponent(data.headers.get('stateFromHydration') || '')
+						);
+					} catch (err) {}
 
-				stateCache.set(propsForServer, stateFromHydration);
-				!!onHydrate && onHydrate(stateFromHydration);
+					stateCache.set(propsForServer, stateFromHydration);
+					!!onHydrate && onHydrate(stateFromHydration);
 
-				const created = createFromFetch(apiCall);
+					const created = createFromFetch(apiCall);
 
-				jsxCache.set(propsForServer, created);
-				setLazyJsx(created);
-			});
+					jsxCache.set(propsForServer, created);
+					setLazyJsx(created);
+				})
+				.catch((err) => {
+					console.log(err);
+					window?.location.reload();
+				});
 		} else {
 			const jsxCacheHit = jsxCache.get(propsForServer);
 			const stateCacheHit = stateCache.get(propsForServer);

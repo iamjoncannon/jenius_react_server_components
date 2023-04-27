@@ -1,7 +1,7 @@
 'use client';
 // @ts-nocheck
-import React, { Suspense } from 'react';
-import { CodeIcon, MagnifyingGlass } from './components';
+import React from 'react';
+import { CodeIcon, MagnifyingGlass, RandomIcon } from './components';
 import ServerComponentShell from './ServerComponentShell';
 import { StyledContainer } from './styleSheet';
 
@@ -14,6 +14,7 @@ import SongsListViewStateContainer from './SongsListViewStateContainer';
 const MainLayout = () => {
 	const [search, setSearch] = React.useState('');
 	const [typed, setTyped] = React.useState('');
+	const [randomTrigger, setRandomTrigger] = React.useState(0);
 	const inputRef = React.useRef(null);
 
 	const onLogoClick = React.useCallback(() => {
@@ -59,6 +60,11 @@ const MainLayout = () => {
 		window.addEventListener('popstate', setSearchFromNavCb);
 	}, []);
 
+	const shuffle = () => {
+		window.history.pushState({}, '', `/`);
+		setRandomTrigger((trigger) => trigger + 1);
+	};
+
 	return (
 		<StyledContainer>
 			<header>
@@ -71,6 +77,10 @@ const MainLayout = () => {
 				<div className={isTyping ? '' : 'opacity-30'}>
 					<MagnifyingGlass />
 				</div>
+				<button onClick={shuffle}>
+					<RandomIcon />
+				</button>
+
 				<div className="code-link">
 					<a
 						href="https://github.com/iamjoncannon/jenius_react_server_components"
@@ -87,6 +97,7 @@ const MainLayout = () => {
 						serverComponent={hydratorConstants.ArtistFeatureCard}
 						fallback={<ArtistFeatureCardLoading />}
 						hydrator={hydratorConstants.ArtistFeatureCardForSplashPage}
+						childProps={{ randomTrigger }}
 					/>
 				)}
 
