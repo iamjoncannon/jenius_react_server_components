@@ -6,7 +6,7 @@ First note this repo is a development of https://github.com/bholmesdev/simple-rs
 
 ### hydrator pattern
 
-I implement a 'hydrator' pattern to decouple the processing of a server component from the view layer logic, with the component parameterized to use a specific querying/database call function in the server-- see /app/hydrators.js, /app/ServerComponentShell.jsx and RscService::stream. This is similar to Server Action rpc functions the React team discusses in the blog entry above- the client uses props and a hydrator declaration to instruct the server on how to process the view layer component.
+I implement a 'hydrator' pattern to decouple the processing of a server component from the view layer logic, with the component parameterized to use a specific querying/database call function in the server-- see /app/hydrators.js, /app/ServerComponentShell.jsx and /server/index.js. This is likely similar to Server Action rpc functions the React team discusses in the blog entry above- the client shell uses props and a hydrator declaration to instruct the server on how to process the view layer component.
 
 A benefit of this pattern vs data container HOCs or hooks encapsulation (putting the db call in the top of the server component) is that it allows us to transmit and manage remote state that might be relevent to the ancestors of the server component. Each hydrator has a set of metadata outputs that are returned to the caller along with the jsx.
 

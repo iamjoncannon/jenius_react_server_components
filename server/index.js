@@ -14,7 +14,7 @@ server.post('/rsc', async ({ request }) => {
 	const { hydratorProps, stateFromHydration } =
 		hydrator && hydrators[hydrator] ? await hydrators[hydrator](props) : props;
 
-	const PageModule = await import(
+	const serverComponentModule = await import(
 		resolveServerDist(
 			`${serverComponent}.js${
 				process.env.NODE_ENV === 'development' ? `?invalidate=${Date.now()}` : ''
@@ -22,11 +22,11 @@ server.post('/rsc', async ({ request }) => {
 		).href
 	);
 
-	const Page = createElement(PageModule.default, hydratorProps);
+	const renderedServerComponent = createElement(serverComponentModule.default, hydratorProps);
 
 	const clientComponentMap = await readClientComponentMap();
 
-	const stream = ReactServerDom.renderToReadableStream(Page, clientComponentMap);
+	const stream = ReactServerDom.renderToReadableStream(renderedServerComponent, clientComponentMap);
 	return new Response(stream, {
 		headers: new Headers({
 			stateFromHydration: encodeURIComponent(JSON.stringify(stateFromHydration))
