@@ -2,7 +2,7 @@
 
 First note this repo is a development of https://github.com/bholmesdev/simple-rsc by Ben Holmes, who worked out the core server component interface using esbuild and react-server-dom-webpack, which anticipates a future release of [officially supported rsc bundlers](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023#react-server-components) outside next.js.
 
-<img src="./docs/hova2.png" />
+<img src="./docs/hova3.png" />
 
 ### hydrator pattern
 
