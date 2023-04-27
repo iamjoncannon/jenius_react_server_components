@@ -36,6 +36,8 @@ const ServerComponentShell = ({
 		if (!jsxCache.has(propsForServer) && showCode) {
 			fetch(url, init).then(async (res) => {
 				const reader = res.body?.getReader();
+				let approximate_size = 0;
+
 				if (!reader) return;
 				let allDone = false;
 				const chunks = [];
@@ -44,12 +46,18 @@ const ServerComponentShell = ({
 					if (done) {
 						allDone = true;
 					} else {
+						const queueingStrategy = new ByteLengthQueuingStrategy({ highWaterMark: 1024 });
+						const size = queueingStrategy.size(value);
+						approximate_size += size;
 						const decoded = new TextDecoder().decode(value);
 						const segments = decoded.trim().split('\n');
 						chunks.push(segments);
 					}
 				}
-				setCode('SERVER COMPONENT: ' + chunks.join().slice(0, 500) + '...');
+
+				setCode(
+					`SERVER COMPONENT (~${approximate_size / 1000}kb)\n ${chunks.join().slice(0, 500)}...`
+				);
 			});
 		}
 	}, [childProps]);

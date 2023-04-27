@@ -69,19 +69,19 @@ const MainLayout = () => {
 		<StyledContainer>
 			<header>
 				<i>
-					<h1 className="jenius-logo" onClick={onLogoClick}>
-						Jenius
+					<h1 id="jenius-logo" onClick={onLogoClick}>
+						RscJenius
 					</h1>
 				</i>
 				<input ref={inputRef} placeholder="Search Jenius" value={typed} onChange={onType}></input>
 				<div className={isTyping ? '' : 'opacity-30'}>
 					<MagnifyingGlass />
 				</div>
-				<button onClick={shuffle}>
+				<button id="random-icon" onClick={shuffle}>
 					<RandomIcon />
 				</button>
 
-				<div className="code-link">
+				<div id="code-link">
 					<a
 						href="https://github.com/iamjoncannon/jenius_react_server_components"
 						target="_blank"

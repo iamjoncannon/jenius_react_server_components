@@ -1,7 +1,5 @@
-// @ts-expect-error Module '"react"' has no exported member 'use'.
-import { StrictMode, useEffect, useState, use, startTransition } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { /* FOR FRAMEWORK DEVS */ createFromFetch } from 'react-server-dom-webpack/client';
 import ServerComponentShell from './ServerComponentShell';
 
 /** Dev-only dependencies */
@@ -17,14 +15,6 @@ window.__webpack_require__ = async (id) => {
 const root = createRoot(document.getElementById('root'));
 root.render(
 	<StrictMode>
-		<Router />
+		<ServerComponentShell {...{ serverComponent: 'AppRoot' }} />
 	</StrictMode>
 );
-
-function Router() {
-	return (
-		<>
-			<ServerComponentShell {...{ serverComponent: 'AppRoot' }} />
-		</>
-	);
-}

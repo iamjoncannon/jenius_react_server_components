@@ -5,7 +5,6 @@ import styled from 'styled-components';
     duplicating in server rendered code
 */
 
-const breakPointLarge = '1300px';
 const breakPointMedium = '1000px';
 
 export const StyledContainer = styled.div`
@@ -29,9 +28,13 @@ export const StyledContainer = styled.div`
 	h1 {
 		cursor: pointer;
 		font-size: 2rem;
+
+		@media (max-width: 1000px) {
+			font-size: 1.5rem !important;
+		}
 	}
 
-	.jenius-logo {
+	#jenius-logo {
 		margin-left: 2rem;
 	}
 
@@ -288,14 +291,17 @@ export const StyledContainer = styled.div`
 		color: #64ffaf;
 	}
 
-	.code-link {
+	#random-icon,
+	#code-link {
+		@media (max-width: 1000px) {
+			display: none;
+		}
+	}
+
+	#code-link {
 		position: absolute;
 		right: 0;
 		margin-right: 2rem;
 		cursor: pointer;
-
-		@media (max-width: 1000px) {
-			display: none;
-		}
 	}
 `;
